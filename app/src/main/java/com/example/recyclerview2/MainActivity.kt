@@ -1,0 +1,41 @@
+package com.example.recyclerview2
+
+import android.app.Activity
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recyclerview2.databinding.ActivityMainBinding
+import com.example.recyclerview2.service.UserService
+import com.example.recyclerview2.service.UsersListener
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding:ActivityMainBinding
+    private lateinit var adapter:UserAdapter
+
+    private val userService: UserService
+        get()=(applicationContext as App).userService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        binding= ActivityMainBinding.inflate(layoutInflater)
+
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        adapter= UserAdapter()
+
+        val layoutManager=LinearLayoutManager(this)
+        binding.recyclerView.layoutManager=layoutManager
+        binding.recyclerView.adapter=adapter
+
+        userService.addListener(usersListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userService.deleteListener(usersListener)
+    }
+    private val usersListener:UsersListener={
+        adapter.users=it
+    }
+}
