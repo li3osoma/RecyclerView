@@ -1,10 +1,11 @@
 package com.example.recyclerview2
 
-import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerview2.databinding.ActivityMainBinding
+import com.example.recyclerview2.model.User
 import com.example.recyclerview2.service.UserService
 import com.example.recyclerview2.service.UsersListener
 
@@ -22,7 +23,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        adapter= UserAdapter()
+        adapter= UserAdapter(object : UserActionListener{
+            override fun onUserMove(user: User, moveBy: Int) {
+                userService.moveUser(user,moveBy)
+            }
+
+            override fun onUserDelete(user: User) {
+                userService.deleteUser(user)
+            }
+
+            override fun onUserDetails(user: User) {
+                Toast.makeText(this@MainActivity,"User: ${user.name}",Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
         val layoutManager=LinearLayoutManager(this)
         binding.recyclerView.layoutManager=layoutManager
