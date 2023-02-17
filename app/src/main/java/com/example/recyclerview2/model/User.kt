@@ -1,6 +1,6 @@
 package com.example.recyclerview2.model
 
-class User (
+data class User (
     val id:Long,
     val photo: String,
     val name: String,

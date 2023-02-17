@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RecyclerView2</string>
+    <string name="unemployed">unemployed</string>
 </resources>
